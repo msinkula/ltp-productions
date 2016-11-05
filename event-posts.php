@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name:Event Posts
-Plugin URI: http://www.wptheming.com
-Description: Creates a custom post type for events with associated metaboxes.
+Plugin Name: LTP Productions
+Plugin URI: https://github.com/msinkula/ltp-productions
+Description: Creates a custom post type for Latino Thetre Projects Productions with associated metaboxes.
 Version: 0.1
-Author: Devin Price
-Author URI: http://www.wptheming.com
+Author: Devin Price, Edited by Mike Sinkula (et al) 
+Author URI: https://github.com/msinkula/ltp-productions
 License: GPLv2 or later
 */
 
@@ -29,26 +29,26 @@ function ep_eventposts() {
 	 */
 
 	$labels = array(
-		'name' => __( 'Events', 'eventposttype' ),
-		'singular_name' => __( 'Event', 'eventposttype' ),
-		'add_new' => __( 'Add New Event', 'eventposttype' ),
-		'add_new_item' => __( 'Add New Event', 'eventposttype' ),
-		'edit_item' => __( 'Edit Event', 'eventposttype' ),
-		'new_item' => __( 'Add New Event', 'eventposttype' ),
-		'view_item' => __( 'View Event', 'eventposttype' ),
-		'search_items' => __( 'Search Events', 'eventposttype' ),
-		'not_found' => __( 'No events found', 'eventposttype' ),
-		'not_found_in_trash' => __( 'No events found in trash', 'eventposttype' )
+		'name' => __( 'Productions', 'eventposttype' ),
+		'singular_name' => __( 'Production', 'eventposttype' ),
+		'add_new' => __( 'Add New Production', 'eventposttype' ),
+		'add_new_item' => __( 'Add New Production', 'eventposttype' ),
+		'edit_item' => __( 'Edit Production', 'eventposttype' ),
+		'new_item' => __( 'Add New Production', 'eventposttype' ),
+		'view_item' => __( 'View Production', 'eventposttype' ),
+		'search_items' => __( 'Search Productions', 'eventposttype' ),
+		'not_found' => __( 'No Productions found', 'eventposttype' ),
+		'not_found_in_trash' => __( 'No Productions found in trash', 'eventposttype' )
 	);
 
 	$args = array(
     	'labels' => $labels,
     	'public' => true,
-		'supports' => array( 'title', 'editor', 'thumbnail', 'comments' ),
+		'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 		'capability_type' => 'post',
 		'rewrite' => array("slug" => "event"), // Permalinks format
 		'menu_position' => 5,
-		'menu_icon' => plugin_dir_url( __FILE__ ) . '/images/calendar-icon.gif',  // Icon Path
+		/* 'menu_icon' => plugin_dir_url( __FILE__ ) . '/images/calendar-icon.gif',  // Icon Path */
 		'has_archive' => true
 	); 
 
@@ -69,7 +69,7 @@ add_action( 'init', 'ep_eventposts' );
 function ep_eventposts_metaboxes() {
 	add_meta_box( 'ept_event_date_start', 'Start Date and Time', 'ept_event_date', 'event', 'side', 'default', array( 'id' => '_start') );
 	add_meta_box( 'ept_event_date_end', 'End Date and Time', 'ept_event_date', 'event', 'side', 'default', array('id'=>'_end') );
-	add_meta_box( 'ept_event_location', 'Event Location', 'ept_event_location', 'event', 'normal', 'default', array('id'=>'_end') );
+	// add_meta_box( 'ept_event_location', 'Event Location', 'ept_event_location', 'event', 'normal', 'default', array('id'=>'_end') );
 }
 add_action( 'admin_init', 'ep_eventposts_metaboxes' );
 
@@ -130,7 +130,7 @@ function ept_event_date($post, $args) {
  
 }
 
-function ept_event_location() {
+/* function ept_event_location() {
 	global $post;
 	// Use nonce for verification
 	wp_nonce_field( plugin_basename( __FILE__ ), 'ep_eventposts_nonce' );
@@ -138,7 +138,7 @@ function ept_event_location() {
 	$event_location = get_post_meta( $post->ID, '_event_location', true );
 	echo '<label for="_event_location">Location:</label>';
 	echo '<input type="text" name="_event_location" value="' . $event_location  . '" />';
-}
+} */
 
 // Save the Metabox Data
 
@@ -191,7 +191,7 @@ function ep_eventposts_save_meta( $post_id, $post ) {
     
     	// Save Locations Meta
     	
-    	 $events_meta['_event_location'] = $_POST['_event_location'];	
+    	 // $events_meta['_event_location'] = $_POST['_event_location'];	
  
 
 	// Add values of $events_meta as custom fields

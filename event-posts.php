@@ -46,7 +46,7 @@ function ep_eventposts() {
     	'public' => true,
 		'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 		'capability_type' => 'post',
-		'rewrite' => array("slug" => "event"), // Permalinks format
+		'rewrite' => array("slug" => "production"), // Permalinks format
 		'menu_position' => 5,
 		/* 'menu_icon' => plugin_dir_url( __FILE__ ) . '/images/calendar-icon.gif',  // Icon Path */
 		'has_archive' => true

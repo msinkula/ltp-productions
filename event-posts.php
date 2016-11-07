@@ -314,9 +314,9 @@ function set_custom_edit_event_columns($columns) {
 
 add_action( 'manage_event_posts_custom_column' , 'custom_event_column' );
 
-function custom_event_column( $column, $post_id ) {
+function custom_event_column( $column ) {
+
     global $post;
-    
     
     switch ( $column ) {
 

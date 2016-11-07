@@ -101,7 +101,8 @@ function ept_event_date($post, $args) {
 		$year = gmdate( 'Y', $time_adj );
 	}
 	
-    /* 
+    /* We don't need the time for LTP Productions
+    
 	$hour = get_post_meta($post->ID, $metabox_id . '_hour', true);
  
     if ( empty($hour) ) {
@@ -133,7 +134,9 @@ function ept_event_date($post, $args) {
  
 }
 
-/* function ept_event_location() {
+/* We don't need the location for LTP Productions
+
+function ept_event_location() {
 	global $post;
 	// Use nonce for verification
 	wp_nonce_field( plugin_basename( __FILE__ ), 'ep_eventposts_nonce' );
@@ -141,7 +144,9 @@ function ept_event_date($post, $args) {
 	$event_location = get_post_meta( $post->ID, '_event_location', true );
 	echo '<label for="_event_location">Location:</label>';
 	echo '<input type="text" name="_event_location" value="' . $event_location  . '" />';
-} */
+} 
+
+*/
 
 // Save the Metabox Data
 
@@ -194,7 +199,7 @@ function ep_eventposts_save_meta( $post_id, $post ) {
     
     	// Save Locations Meta
     	
-    	 // $events_meta['_event_location'] = $_POST['_event_location'];	
+        // $events_meta['_event_location'] = $_POST['_event_location'];	
  
 
 	// Add values of $events_meta as custom fields
@@ -285,5 +290,53 @@ function ep_event_query( $query ) {
 }
 
 add_action( 'pre_get_posts', 'ep_event_query' );
+
+/* Add the Columns to the Admin
+ *
+ *
+ * Author: Mike Sinkula
+ *
+ * @link https://codex.wordpress.org/Plugin_API/Action_Reference/manage_$post_type_posts_custom_column
+ * @param object $columns data
+ *
+ */
+
+add_filter( 'manage_event_posts_columns', 'set_custom_edit_event_columns' );
+
+function set_custom_edit_event_columns($columns) {
+    unset( $columns['date'] );
+    $columns['featured_image'] = __( 'Featured Image', 'your_text_domain' );
+    $columns['start_date'] = __( 'Start Date', 'your_text_domain' );
+    $columns['end_date'] = __( 'End Date', 'your_text_domain' );
+
+    return $columns;
+}
+
+add_action( 'manage_event_posts_custom_column' , 'custom_event_column' );
+
+function custom_event_column( $column, $post_id ) {
+    global $post;
+    
+    
+    switch ( $column ) {
+
+    case 'featured_image' :
+    echo the_post_thumbnail('thumbnail');
+    break;
+
+    case 'start_date' :
+    echo get_post_meta( $post->ID, '_start_month', true ) . '/';
+    echo get_post_meta( $post->ID, '_start_day', true ) . '/';
+    echo get_post_meta( $post->ID, '_start_year', true );
+    break;
+
+    case 'end_date' :
+    echo get_post_meta( $post->ID, '_end_month', true ) . '/';
+    echo get_post_meta( $post->ID, '_end_day', true ) . '/';
+    echo get_post_meta( $post->ID, '_end_year', true ); 
+    break;
+
+    }
+}
 
 ?>

@@ -293,7 +293,6 @@ add_action( 'pre_get_posts', 'ep_event_query' );
 
 /* Add the Columns to the Admin
  *
- *
  * Author: Mike Sinkula
  *
  * @link https://codex.wordpress.org/Plugin_API/Action_Reference/manage_$post_type_posts_custom_column
@@ -301,18 +300,18 @@ add_action( 'pre_get_posts', 'ep_event_query' );
  *
  */
 
-add_filter( 'manage_event_posts_columns', 'set_custom_edit_event_columns' );
-
-function set_custom_edit_event_columns($columns) {
-    unset( $columns['date'] );
-    $columns['featured_image'] = __( 'Featured Image', 'your_text_domain' );
-    $columns['start_date'] = __( 'Start Date', 'your_text_domain' );
-    $columns['end_date'] = __( 'End Date', 'your_text_domain' );
-
-    return $columns;
+function set_event_columns($columns) {
+    return array(
+        'title' => __('Title'),
+        'featured_image' => __('Featured Image', 'your_text_domain'),
+        'start_date' => __('Start Date', 'your_text_domain' ),
+        'end_date' => __('End Date', 'your_text_domain'),
+        'date' => __('Date'),
+    );
 }
 
-add_action( 'manage_event_posts_custom_column' , 'custom_event_column' );
+add_filter('manage_event_posts_columns' , 'set_event_columns');
+
 
 function custom_event_column( $column ) {
 
@@ -338,5 +337,7 @@ function custom_event_column( $column ) {
 
     }
 }
+
+add_action( 'manage_event_posts_custom_column' , 'custom_event_column' );
 
 ?>

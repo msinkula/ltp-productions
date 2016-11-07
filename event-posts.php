@@ -67,8 +67,8 @@ add_action( 'init', 'ep_eventposts' );
  */
 
 function ep_eventposts_metaboxes() {
-	add_meta_box( 'ept_event_date_start', 'Start Date and Time', 'ept_event_date', 'event', 'side', 'default', array( 'id' => '_start') );
-	add_meta_box( 'ept_event_date_end', 'End Date and Time', 'ept_event_date', 'event', 'side', 'default', array('id'=>'_end') );
+	add_meta_box( 'ept_event_date_start', 'Start Date', 'ept_event_date', 'event', 'side', 'default', array( 'id' => '_start') );
+	add_meta_box( 'ept_event_date_end', 'End Date', 'ept_event_date', 'event', 'side', 'default', array('id'=>'_end') );
 	// add_meta_box( 'ept_event_location', 'Event Location', 'ept_event_location', 'event', 'normal', 'default', array('id'=>'_end') );
 }
 add_action( 'admin_init', 'ep_eventposts_metaboxes' );
@@ -101,6 +101,7 @@ function ept_event_date($post, $args) {
 		$year = gmdate( 'Y', $time_adj );
 	}
 	
+    /* 
 	$hour = get_post_meta($post->ID, $metabox_id . '_hour', true);
  
     if ( empty($hour) ) {
@@ -112,6 +113,8 @@ function ept_event_date($post, $args) {
     if ( empty($min) ) {
         $min = '00';
     }
+    
+    */
 
 	$month_s = '<select name="' . $metabox_id . '_month">';
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
@@ -124,9 +127,9 @@ function ept_event_date($post, $args) {
 
 	echo $month_s;
 	echo '<input type="text" name="' . $metabox_id . '_day" value="' . $day  . '" size="2" maxlength="2" />';
-    echo '<input type="text" name="' . $metabox_id . '_year" value="' . $year . '" size="4" maxlength="4" /> @ ';
-    echo '<input type="text" name="' . $metabox_id . '_hour" value="' . $hour . '" size="2" maxlength="2"/>:';
-    echo '<input type="text" name="' . $metabox_id . '_minute" value="' . $min . '" size="2" maxlength="2" />';
+    echo '<input type="text" name="' . $metabox_id . '_year" value="' . $year . '" size="4" maxlength="4" />  <!-- @ -->';
+    // echo '<input type="text" name="' . $metabox_id . '_hour" value="' . $hour . '" size="2" maxlength="2"/>:';
+    // echo '<input type="text" name="' . $metabox_id . '_minute" value="' . $min . '" size="2" maxlength="2" />';
  
 }
 

@@ -2,10 +2,10 @@
 /*
 Plugin Name: LTP Productions
 Plugin URI: https://github.com/msinkula/ltp-productions
-Description: Creates a custom post type for Latino Thetre Projects Productions with associated metaboxes.
+Description: Creates a custom post type for Latino Thetre Projects Productions with associated metaboxes. Created from Devin Price's Event Plugin.
 Version: 1.0
-Author: Devin Price, Edited by Mike Sinkula (et al) 
-Author URI: https://github.com/msinkula/ltp-productions
+Author: Mike Sinkula 
+Author URI: http://www.premiumdw.com/
 License: GPLv2 or later
 */
 
@@ -82,7 +82,6 @@ function ep_eventposts() {
 function ep_eventposts_metaboxes() {
 	add_meta_box( 'ept_event_date_start', 'Start Date', 'ept_event_date', 'event', 'side', 'default', array( 'id' => '_start') );
 	add_meta_box( 'ept_event_date_end', 'End Date', 'ept_event_date', 'event', 'side', 'default', array('id'=>'_end') );
-	// add_meta_box( 'ept_event_location', 'Event Location', 'ept_event_location', 'event', 'normal', 'default', array('id'=>'_end') );
 }
 add_action( 'admin_init', 'ep_eventposts_metaboxes' );
 
@@ -114,22 +113,6 @@ function ept_event_date($post, $args) {
 	if ( empty( $year ) ) {
 		$year = gmdate( 'Y', $time_adj );
 	}
-	
-    /* We don't need the time for LTP Productions
-    
-	$hour = get_post_meta($post->ID, $metabox_id . '_hour', true);
- 
-    if ( empty($hour) ) {
-        $hour = gmdate( 'H', $time_adj );
-    }
- 
-    $min = get_post_meta($post->ID, $metabox_id . '_minute', true);
- 
-    if ( empty($min) ) {
-        $min = '00';
-    }
-    
-    */
 
 	$month_s = '<select name="' . $metabox_id . '_month">';
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
@@ -142,26 +125,9 @@ function ept_event_date($post, $args) {
 
 	echo $month_s;
 	echo '<input type="text" name="' . $metabox_id . '_day" value="' . $day  . '" size="2" maxlength="2" />';
-    echo '<input type="text" name="' . $metabox_id . '_year" value="' . $year . '" size="4" maxlength="4" />  <!-- @ -->';
-    // echo '<input type="text" name="' . $metabox_id . '_hour" value="' . $hour . '" size="2" maxlength="2"/>:';
-    // echo '<input type="text" name="' . $metabox_id . '_minute" value="' . $min . '" size="2" maxlength="2" />';
+    echo '<input type="text" name="' . $metabox_id . '_year" value="' . $year . '" size="4" maxlength="4" /> ';
  
 }
-
-
-/* We don't need the location for LTP Productions
-
-function ept_event_location() {
-	global $post;
-	// Use nonce for verification
-	wp_nonce_field( plugin_basename( __FILE__ ), 'ep_eventposts_nonce' );
-	// The metabox HTML
-	$event_location = get_post_meta( $post->ID, '_event_location', true );
-	echo '<label for="_event_location">Location:</label>';
-	echo '<input type="text" name="_event_location" value="' . $event_location  . '" />';
-} 
-
-*/
 
 
 // Save the Metabox Data
@@ -212,10 +178,6 @@ function ep_eventposts_save_meta( $post_id, $post ) {
 	    $events_meta[$key . '_eventtimestamp'] = $aa . $mm . $jj . $hh . $mn;
 	    
     }
-    
-    // Save Locations Meta
-
-    // $events_meta['_event_location'] = $_POST['_event_location'];	
  
 
 	// Add values of $events_meta as custom fields
@@ -235,10 +197,6 @@ function ep_eventposts_save_meta( $post_id, $post ) {
 
 add_action( 'save_post', 'ep_eventposts_save_meta', 1, 2 );
 
-
-/**
- * Helpers to display the date on the front end
- */
 
 // Get the Month Abbreviation
  
@@ -311,8 +269,6 @@ add_action( 'pre_get_posts', 'ep_event_query' );
 
 /* Add the Columns to the Admin
  *
- * Author: Mike Sinkula
- *
  * @link https://codex.wordpress.org/Plugin_API/Action_Reference/manage_$post_type_posts_custom_column
  * @param object $columns data
  *
@@ -321,6 +277,7 @@ add_action( 'pre_get_posts', 'ep_event_query' );
 // Set the Labels for the Columns
 function set_event_columns($columns) {
     return array(
+        'cb' => '<input type="checkbox" />',
         'title' => __('Title'),
         'featured_image' => __('Featured Image'),
         'start_date' => __('Start Date' ),

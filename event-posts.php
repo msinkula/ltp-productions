@@ -3,7 +3,7 @@
 Plugin Name: LTP Productions
 Plugin URI: https://github.com/msinkula/ltp-productions
 Description: Creates a custom post type for Latino Thetre Projects Productions with associated metaboxes.
-Version: 0.1
+Version: 1.0
 Author: Devin Price, Edited by Mike Sinkula (et al) 
 Author URI: https://github.com/msinkula/ltp-productions
 License: GPLv2 or later
@@ -11,7 +11,8 @@ License: GPLv2 or later
 
 /**
  * Flushes rewrite rules on plugin activation to ensure event posts don't 404
- * http://codex.wordpress.org/Function_Reference/flush_rewrite_rules
+ * 
+ * @link http://codex.wordpress.org/Function_Reference/flush_rewrite_rules
  */
 
 function ep_eventposts_activation() {
@@ -19,23 +20,35 @@ function ep_eventposts_activation() {
 	flush_rewrite_rules();
 }
 
+
+/**
+ * Register the Plugin Activation Hook
+ *
+ * @link https://codex.wordpress.org/Function_Reference/register_activation_hook
+ */ 
+
 register_activation_hook( __FILE__, 'ep_eventposts_activation' );
 
-function ep_eventposts() {
 
-	/**
-	 * Enable the event custom post type
-	 * http://codex.wordpress.org/Function_Reference/register_post_type
-	 */
+/**
+ * Register the Productions Custonm Post Type
+ *
+ * @link http://codex.wordpress.org/Function_Reference/register_post_type
+ */ 
+
+add_action( 'init', 'ep_eventposts' );
+
+function ep_eventposts() {
 
 	$labels = array(
 		'name' => __( 'Productions', 'eventposttype' ),
 		'singular_name' => __( 'Production', 'eventposttype' ),
-		'add_new' => __( 'Add New Production', 'eventposttype' ),
-		'add_new_item' => __( 'Add New Production', 'eventposttype' ),
+		'add_new' => __( 'Add New', 'eventposttype' ),
+		'add_new_item' => __( 'Add New', 'eventposttype' ),
 		'edit_item' => __( 'Edit Production', 'eventposttype' ),
 		'new_item' => __( 'Add New Production', 'eventposttype' ),
 		'view_item' => __( 'View Production', 'eventposttype' ),
+        'all_items' => __( 'All Productions', 'eventposttype' ),
 		'search_items' => __( 'Search Productions', 'eventposttype' ),
 		'not_found' => __( 'No Productions found', 'eventposttype' ),
 		'not_found_in_trash' => __( 'No Productions found in trash', 'eventposttype' )
@@ -48,18 +61,18 @@ function ep_eventposts() {
 		'capability_type' => 'post',
 		'rewrite' => array("slug" => "production"), // Permalinks format
 		'menu_position' => 5,
-		/* 'menu_icon' => plugin_dir_url( __FILE__ ) . '/images/calendar-icon.gif',  // Icon Path */
-		'has_archive' => true
+        'menu_icon' => 'dashicons-calendar', // https://www.kevinleary.net/wordpress-dashicons-list-custom-post-type-icons/
+		'has_archive' => true,
 	); 
 
 	register_post_type( 'event', $args );
 }
 
-add_action( 'init', 'ep_eventposts' );
 
 /**
  * Adds event post metaboxes for start time and end time
- * http://codex.wordpress.org/Function_Reference/add_meta_box
+ *
+ * @link http://codex.wordpress.org/Function_Reference/add_meta_box
  *
  * We want two time event metaboxes, one for the start time and one for the end time.
  * Two avoid repeating code, we'll just pass the $identifier in a callback.
@@ -72,6 +85,7 @@ function ep_eventposts_metaboxes() {
 	// add_meta_box( 'ept_event_location', 'Event Location', 'ept_event_location', 'event', 'normal', 'default', array('id'=>'_end') );
 }
 add_action( 'admin_init', 'ep_eventposts_metaboxes' );
+
 
 // Metabox HTML
 
@@ -134,6 +148,7 @@ function ept_event_date($post, $args) {
  
 }
 
+
 /* We don't need the location for LTP Productions
 
 function ept_event_location() {
@@ -147,6 +162,7 @@ function ept_event_location() {
 } 
 
 */
+
 
 // Save the Metabox Data
 
@@ -197,9 +213,9 @@ function ep_eventposts_save_meta( $post_id, $post ) {
 	    
     }
     
-    	// Save Locations Meta
-    	
-        // $events_meta['_event_location'] = $_POST['_event_location'];	
+    // Save Locations Meta
+
+    // $events_meta['_event_location'] = $_POST['_event_location'];	
  
 
 	// Add values of $events_meta as custom fields
@@ -218,6 +234,7 @@ function ep_eventposts_save_meta( $post_id, $post ) {
 }
 
 add_action( 'save_post', 'ep_eventposts_save_meta', 1, 2 );
+
 
 /**
  * Helpers to display the date on the front end
@@ -291,6 +308,7 @@ function ep_event_query( $query ) {
 
 add_action( 'pre_get_posts', 'ep_event_query' );
 
+
 /* Add the Columns to the Admin
  *
  * Author: Mike Sinkula
@@ -300,12 +318,13 @@ add_action( 'pre_get_posts', 'ep_event_query' );
  *
  */
 
+// Set the Labels for the Columns
 function set_event_columns($columns) {
     return array(
         'title' => __('Title'),
-        'featured_image' => __('Featured Image', 'your_text_domain'),
-        'start_date' => __('Start Date', 'your_text_domain' ),
-        'end_date' => __('End Date', 'your_text_domain'),
+        'featured_image' => __('Featured Image'),
+        'start_date' => __('Start Date' ),
+        'end_date' => __('End Date'),
         'date' => __('Date'),
     );
 }
@@ -313,6 +332,7 @@ function set_event_columns($columns) {
 add_filter('manage_event_posts_columns' , 'set_event_columns');
 
 
+// Pull the Values for the Columns
 function custom_event_column( $column ) {
 
     global $post;

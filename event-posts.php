@@ -2,7 +2,7 @@
 /*
 Plugin Name: LTP Productions
 Plugin URI: https://github.com/msinkula/ltp-productions
-Description: Creates a custom post type for Latino Thetre Projects Productions with associated metaboxes. Created from Devin Price's Event Plugin.
+Description: Creates a custom post type for Latino Thetre Projects Productions with associated metaboxes. Created from Devin Price's Event Plugin: http://wptheming.com/2011/11/event-posts-in-wordpress/
 Version: 1.0
 Author: Mike Sinkula 
 Author URI: http://www.premiumdw.com/
@@ -17,7 +17,7 @@ License: GPLv2 or later
 
 function ep_eventposts_activation() {
 	ep_eventposts();
-	flush_rewrite_rules();
+	// flush_rewrite_rules();
 }
 
 
@@ -35,8 +35,6 @@ register_activation_hook( __FILE__, 'ep_eventposts_activation' );
  *
  * @link http://codex.wordpress.org/Function_Reference/register_post_type
  */ 
-
-add_action( 'init', 'ep_eventposts' );
 
 function ep_eventposts() {
 
@@ -67,6 +65,8 @@ function ep_eventposts() {
 
 	register_post_type( 'event', $args );
 }
+
+add_action( 'init', 'ep_eventposts' );
 
 
 /**

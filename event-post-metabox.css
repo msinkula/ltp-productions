@@ -1,8 +1,8 @@
 #ept_event_date_start .inside, #ept_event_date_end .inside {
-	/* font-size:95%; */
+	font-size:95%; 
 }
 
 #ept_event_location input {
-	/* margin:10px;
-	min-width:60%; */
+	margin:10px;
+	min-width:60%; 
 }

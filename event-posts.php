@@ -90,7 +90,7 @@ add_action( 'init', 'ep_eventposts' );
 function ep_eventposts_metaboxes() {
 	add_meta_box( 'ept_event_date_start', 'Start Date and Time', 'ept_event_date', 'event', 'side', 'default', array( 'id' => '_start') );
 	add_meta_box( 'ept_event_date_end', 'End Date and Time', 'ept_event_date', 'event', 'side', 'default', array('id'=>'_end') );
-	add_meta_box( 'ept_event_location', 'Event Location', 'ept_event_location', 'event', 'normal', 'default', array('id'=>'_end') );
+	add_meta_box( 'ept_event_location', 'Event Location', 'ept_event_location', 'event', 'side', 'default', array('id'=>'_end') );
 }
 add_action( 'admin_init', 'ep_eventposts_metaboxes' );
 
@@ -147,7 +147,7 @@ function ept_event_location() {
 	wp_nonce_field( plugin_basename( __FILE__ ), 'ep_eventposts_nonce' );
 	// The metabox HTML
 	$event_location = get_post_meta( $post->ID, '_event_location', true );
-	echo '<label for="_event_location">Location:</label>';
+	echo '<label for="_event_location">Location:&nbsp;</label>';
 	echo '<input type="text" name="_event_location" value="' . $event_location  . '" />';
 }
 

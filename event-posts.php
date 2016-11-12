@@ -33,7 +33,7 @@ function ep_eventposts_activation() {
  * Register the Plugin Activation Hook
  *
  * @link https://codex.wordpress.org/Function_Reference/register_activation_hook
- */ 
+ **/ 
 
 register_activation_hook( __FILE__, 'ep_eventposts_activation' );
 
@@ -42,7 +42,7 @@ register_activation_hook( __FILE__, 'ep_eventposts_activation' );
  * Register the Productions Custonm Post Type
  *
  * @link http://codex.wordpress.org/Function_Reference/register_post_type
- */ 
+ **/ 
 
 function ep_eventposts() {
 
@@ -85,7 +85,7 @@ add_action( 'init', 'ep_eventposts' );
  * We want two time event metaboxes, one for the start time and one for the end time.
  * Two avoid repeating code, we'll just pass the $identifier in a callback.
  * If you wanted to add this to regular posts instead, just swap 'event' for 'post' in add_meta_box.
- */
+ **/
 
 function ep_eventposts_metaboxes() {
 	add_meta_box( 'ept_event_date_start', 'Start Date and Time', 'ept_event_date', 'event', 'side', 'default', array( 'id' => '_start') );
@@ -252,8 +252,7 @@ function ep_eventposts_css() {
  * 
  * @link http://www.billerickson.net/customize-the-wordpress-query/
  * @param object $query data
- *
- */
+ **/
 
 function ep_event_query( $query ) {
 	// http://codex.wordpress.org/Function_Reference/current_time
@@ -284,8 +283,7 @@ add_action( 'pre_get_posts', 'ep_event_query' );
  *
  * @link https://codex.wordpress.org/Plugin_API/Action_Reference/manage_$post_type_posts_custom_column
  * @param object $columns data
- *
- */
+ **/
 
 // Set the Labels for the Columns
 function set_event_columns($columns) {
@@ -304,35 +302,35 @@ add_filter('manage_event_posts_columns' , 'set_event_columns');
 
 
 // Pull the Values for the Columns
-function custom_event_column( $column ) {
+function custom_event_column($column) {
 
     global $post;
     
-    switch ( $column ) {
+    switch ($column) {
 
     case 'featured_image' :
     echo the_post_thumbnail('thumbnail');
     break;
 
     case 'start_date' :
-    echo get_post_meta( $post->ID, '_start_month', true ) . '/';
-    echo get_post_meta( $post->ID, '_start_day', true ) . '/';
-    echo get_post_meta( $post->ID, '_start_year', true );
+    echo get_post_meta($post->ID, '_start_month', true) . '/';
+    echo get_post_meta($post->ID, '_start_day', true) . '/';
+    echo get_post_meta($post->ID, '_start_year', true);
     break;
 
     case 'end_date' :
-    echo get_post_meta( $post->ID, '_end_month', true ) . '/';
-    echo get_post_meta( $post->ID, '_end_day', true ) . '/';
-    echo get_post_meta( $post->ID, '_end_year', true ); 
+    echo get_post_meta($post->ID, '_end_month', true) . '/';
+    echo get_post_meta($post->ID, '_end_day', true) . '/';
+    echo get_post_meta($post->ID, '_end_year', true); 
     break;
             
     case 'location' :
-    echo get_post_meta( $post->ID, '_event_location', true );; 
+    echo get_post_meta($post->ID, '_event_location', true);; 
     break;
 
     }
 }
 
-add_action( 'manage_event_posts_custom_column' , 'custom_event_column' );
+add_action('manage_event_posts_custom_column' , 'custom_event_column');
 
 ?>

@@ -212,9 +212,6 @@ function ep_eventposts_save_meta( $post_id, $post ) {
 add_action( 'save_post', 'ep_eventposts_save_meta', 1, 2 );
 
 
-/**
- * Helpers to display the date on the front end
- */
 // Get the Month Abbreviation
  
 function eventposttype_get_the_month_abbr($month) {
@@ -325,7 +322,7 @@ function custom_event_column($column) {
     break;
             
     case 'location' :
-    echo get_post_meta($post->ID, '_event_location', true);; 
+    echo get_post_meta($post->ID, '_event_location', true); 
     break;
 
     }

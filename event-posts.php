@@ -67,7 +67,7 @@ function ep_eventposts() {
 		'capability_type' => 'post',
 		'rewrite' => array("slug" => "production"), // Permalinks format
 		'menu_position' => 5,
-        'menu_icon' => 'dashicons-calendar', // https://www.kevinleary.net/wordpress-dashicons-list-custom-post-type-icons/
+        'menu_icon' => 'dashicons-calendar-alt', // https://developer.wordpress.org/resource/dashicons/
 		'has_archive' => true,
 	); 
 

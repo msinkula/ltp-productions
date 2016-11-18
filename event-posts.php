@@ -147,7 +147,10 @@ function ept_event_location() {
 	wp_nonce_field( plugin_basename( __FILE__ ), 'ep_eventposts_nonce' );
 	// The metabox HTML
 	$event_location = get_post_meta( $post->ID, '_event_location', true );
-	echo '<label for="_event_location">Location:&nbsp;</label>';
+    $production_title = get_post_meta( $post->ID, '_production_title', true );
+	echo '<label for="_event_location">Title:&nbsp;</label>';
+	echo '<input type="text" name="_production_title" value="' . $production_title  . '" />';
+    echo '<label for="_event_location">Address:&nbsp;</label>';
 	echo '<input type="text" name="_event_location" value="' . $event_location  . '" />';
 }
 

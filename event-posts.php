@@ -193,12 +193,11 @@ function ep_eventposts_save_meta( $post_id, $post ) {
 		$events_meta[$key . '_hour'] = $hh;
 		$events_meta[$key . '_minute'] = $mn;
 	    $events_meta[$key . '_eventtimestamp'] = $aa . $mm . $jj . $hh . $mn;
-	    
     }
     
     // Save Locations Meta
-
-    $events_meta['_event_location'] = $_POST['_event_location'];	
+    $events_meta['_event_location'] = $_POST['_event_location'];
+    $events_meta['_production_title'] = $_POST['_production_title'];
  
 	// Add values of $events_meta as custom fields
 	foreach ( $events_meta as $key => $value ) { // Cycle through the $events_meta array!

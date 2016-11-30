@@ -147,7 +147,10 @@ function ept_event_location() {
 	wp_nonce_field( plugin_basename( __FILE__ ), 'ep_eventposts_nonce' );
 	// The metabox HTML
 	$event_location = get_post_meta( $post->ID, '_event_location', true );
-	echo '<label for="_event_location">Location:&nbsp;</label>';
+    $production_title = get_post_meta( $post->ID, '_production_title', true );
+	echo '<label for="_event_location">Title:&nbsp;</label>';
+	echo '<input type="text" name="_production_title" value="' . $production_title  . '" />';
+    echo '<label for="_event_location">Address:&nbsp;</label>';
 	echo '<input type="text" name="_event_location" value="' . $event_location  . '" />';
 }
 
@@ -190,12 +193,11 @@ function ep_eventposts_save_meta( $post_id, $post ) {
 		$events_meta[$key . '_hour'] = $hh;
 		$events_meta[$key . '_minute'] = $mn;
 	    $events_meta[$key . '_eventtimestamp'] = $aa . $mm . $jj . $hh . $mn;
-	    
     }
     
     // Save Locations Meta
-
-    $events_meta['_event_location'] = $_POST['_event_location'];	
+    $events_meta['_event_location'] = $_POST['_event_location'];
+    $events_meta['_production_title'] = $_POST['_production_title'];
  
 	// Add values of $events_meta as custom fields
 	foreach ( $events_meta as $key => $value ) { // Cycle through the $events_meta array!
